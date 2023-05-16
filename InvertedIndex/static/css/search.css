@@ -1,0 +1,9 @@
+.search-box {
+  margin-bottom: 50px; /* 调整搜索框与其他内容之间的垂直间距 */
+}
+
+.sidebar {
+  float: right;
+  width: 350px; /* 设置侧边栏的宽度 */
+  margin-left: 20px; /* 调整侧边栏与其他内容之间的水平间距 */
+}

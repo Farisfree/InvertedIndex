@@ -1,0 +1,31 @@
+{% block content %}
+{#    {% include 'header.html'%}#}
+    <h2>Pagination</h2>
+
+    {% if paginator %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if paginator.has_previous %}
+                    <a href="?page=1&q={{ search_query }}">&laquo; first</a>
+                    <a href="?page={{ paginator.previous_page_number }}&q={{ search_query }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ paginator.number }} of {{ paginator.num_pages }}.
+                </span>
+
+                {% if paginator.has_next %}
+                    <a href="?page={{ paginator.next_page_number }}&q={{ search_query }}">next</a>
+                    <a href="?page={{ paginator.num_pages }}&q={{ search_query }}">last &raquo;</a>
+                {% endif %}
+            </span>
+
+            <form class="d-inline-block ml-3" method="GET" action="">
+                <input type="hidden" name="q" value="{{ search_query }}">
+                <label for="jump_to_page">Jump to page:</label>
+                <input type="number" id="jump_to_page" name="page" min="1" max="{{ paginator.num_pages }}" class="form-control d-inline-block w-auto">
+                <button type="submit" class="btn btn-primary">Go</button>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

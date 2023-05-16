@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>{% block title %}Django Web App{% endblock %}</title>
+    <style>
+      body {
+        background-image: url("../static/img/img.png");
+        background-size: cover; /* 调整背景图片的尺寸以覆盖整个页面 */
+        background-repeat: no-repeat; /* 防止背景图片重复显示 */
+      }
+
+      .search-box h1,
+      {#.search-box input,#}
+      {#.search-box button,#}
+      #search-results,
+      #pagination,
+      .sidebar {
+          color: white;
+      }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        {% block content %}{% endblock %}
+    </div>
+    <button class="bgm on"><div class="music-icon music-icon--on" data-v-44e324b1=""><div class="music-icon__col music-icon__col--1" data-v-44e324b1=""><div class="music-icon__sqr music-icon__sqr--r-1 music-icon__sqr--c-1 music-icon__sqr--1-1" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-2 music-icon__sqr--c-1 music-icon__sqr--2-1" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-3 music-icon__sqr--c-1 music-icon__sqr--3-1" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-4 music-icon__sqr--c-1 music-icon__sqr--4-1" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-5 music-icon__sqr--c-1 music-icon__sqr--5-1" data-v-44e324b1=""></div></div><div class="music-icon__col music-icon__col--2" data-v-44e324b1=""><div class="music-icon__sqr music-icon__sqr--r-1 music-icon__sqr--c-2 music-icon__sqr--1-2" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-2 music-icon__sqr--c-2 music-icon__sqr--2-2" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-3 music-icon__sqr--c-2 music-icon__sqr--3-2" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-4 music-icon__sqr--c-2 music-icon__sqr--4-2" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-5 music-icon__sqr--c-2 music-icon__sqr--5-2" data-v-44e324b1=""></div></div><div class="music-icon__col music-icon__col--3" data-v-44e324b1=""><div class="music-icon__sqr music-icon__sqr--r-1 music-icon__sqr--c-3 music-icon__sqr--1-3" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-2 music-icon__sqr--c-3 music-icon__sqr--2-3" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-3 music-icon__sqr--c-3 music-icon__sqr--3-3" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-4 music-icon__sqr--c-3 music-icon__sqr--4-3" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-5 music-icon__sqr--c-3 music-icon__sqr--5-3" data-v-44e324b1=""></div></div><div class="music-icon__col music-icon__col--4" data-v-44e324b1=""><div class="music-icon__sqr music-icon__sqr--r-1 music-icon__sqr--c-4 music-icon__sqr--1-4" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-2 music-icon__sqr--c-4 music-icon__sqr--2-4" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-3 music-icon__sqr--c-4 music-icon__sqr--3-4" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-4 music-icon__sqr--c-4 music-icon__sqr--4-4" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-5 music-icon__sqr--c-4 music-icon__sqr--5-4" data-v-44e324b1=""></div></div><div class="music-icon__col music-icon__col--5" data-v-44e324b1=""><div class="music-icon__sqr music-icon__sqr--r-1 music-icon__sqr--c-5 music-icon__sqr--1-5" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-2 music-icon__sqr--c-5 music-icon__sqr--2-5" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-3 music-icon__sqr--c-5 music-icon__sqr--3-5" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-4 music-icon__sqr--c-5 music-icon__sqr--4-5" data-v-44e324b1=""></div><div class="music-icon__sqr music-icon__sqr--r-5 music-icon__sqr--c-5 music-icon__sqr--5-5" data-v-44e324b1=""></div></div></div> <audio id="bgm" preload="auto" loop="loop"><source src="/_nuxt/9216e098e497752df5ea40113ed2947f.mp3" type="audio/mpeg"></audio></button>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

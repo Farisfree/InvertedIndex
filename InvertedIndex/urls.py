@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import path
+
+from InvertedIndex import views
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('search', views.search),
+    path("pagination", views.pagination),
 ]
