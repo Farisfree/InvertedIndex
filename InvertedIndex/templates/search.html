@@ -8,28 +8,49 @@
         <h1>
         <span for="search-input">Searching</span>
         </h1>
-        <form method="post" action="{% url 'search' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
+        <form method="post" action="/BM25/">
+         {% csrf_token %}
 
-            <bottom type = "submit">搜索</bottom>
-        </form>
-    <h2>
-    <p>{{ search_result }}</p>
-    </h2>
+        <input type="text" name="query">
+        <input type="submit" value="bm25">
+
+        <p>{{ data1 }}</p>
+
+    </form>
+
+<form method="post" action="/Cosine/">
+         {% csrf_token %}
+
+        <input type="text" name="query">
+        <input type="submit" value="cosine">
+
+         <p>{{ data2 }}</p>
+
+    </form>
+
+<form method="post" action="/HashingTF/">
+         {% csrf_token %}
+
+        <input type="text" name="query">
+        <input type="submit" value="HashingTF">
+
+         <p>{{ data3 }}</p>
+
+    </form>
+
 
 {#        <link rel="stylesheet" href="../static/css/search.css">#}
 {##}
 {#        <input type="text" id="search-input" placeholder="输入搜索内容">#}
 {#        <button id="search-button">搜索</button>#}
 {#        <button id="search-mode-button">切换搜索方式</button>#}
-{#    </div>#}
-{#    <div id="search-results"></div>#}
-{#    <div id="pagination"></div>#}
-{#    <div class="sidebar" style="float: right;">#}
-{#        <h3>热度排行榜</h3>#}
-{#        <ul id="hot-list"></ul>#}
-{#    </div>#}
+    </div>
+    <div id="search-results"></div>
+    <div id="pagination"></div>
+    <div class="sidebar" style="float: right;">
+        <h3>热度排行榜</h3>
+        <ul id="hot-list"></ul>
+    </div>
 {% endblock %}
 
 

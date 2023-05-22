@@ -26,7 +26,7 @@ def bm25Search(request):
 
     result = bm25(query)
 
-    return render(request,"",{"data":result})
+    return render(request,"",{"data1":result})
 
 
 def cosineSearch(request):
@@ -34,7 +34,7 @@ def cosineSearch(request):
 
     result = cosineSearch(query)
 
-    return render(request,"",{"data":result})
+    return render(request,"",{"data2":result})
 
 
 def hashingTFSearch(request):
@@ -42,7 +42,7 @@ def hashingTFSearch(request):
 
     result = hashingTFSearch(query)
 
-    return render(request, "", {"data": result})
+    return render(request, "", {"data3": result})
 
 
 
