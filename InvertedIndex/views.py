@@ -14,8 +14,12 @@ def search(request):
     if request.method == "GET":
         return render(request, "search.html")
     else:
-        return render(request, "search.html", {"search_result":"123"})
+        query = request.POST.get("query")
+        if query:
 
+            return render(request, "search.html", {"search_result": "123"})
+        else:
+            return render(request, "search.html", {"warning": "Do not leave it empty!"})
 
 def pagination(request):
     return render(request, "pagination.html")

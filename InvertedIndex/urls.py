@@ -21,8 +21,8 @@ from InvertedIndex import views
 
 
 urlpatterns = [
-    path('search', views.search),
-    path("pagination", views.pagination),
+    path('search/', views.search),
+    path("pagination/", views.pagination),
     path('BM25/',views.bm25Search),
     path('Cosine/',views.cosineSearch),
     path('HashingTF/',views.hashingTFSearch),
