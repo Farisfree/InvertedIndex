@@ -4,19 +4,26 @@
 {% block title %}Search{% endblock %}
 
 {% block content %}
+
     <div class="search-box">
         <h1>
         <span for="search-input">Searching</span>
         </h1>
-        <form method="post" action="/BM25/">
+        <form method="post" action="/search/">
          {% csrf_token %}
 
         <input type="text" name="query">
-        <input type="submit" value="bm25">
+        <input type="submit" value="TF-IDF">
 
-        <p>{{ data1 }}</p>
+        <p style ="color:white;">{{ data1 }}</p>
 
     </form>
+    
+
+
+    
+    
+    
 
 
 
@@ -26,12 +33,7 @@
 {#        <button id="search-button">搜索</button>#}
 {#        <button id="search-mode-button">切换搜索方式</button>#}
     </div>
-    <div id="search-results"></div>
-    <div id="pagination"></div>
-    <div class="sidebar" style="float: right;">
-        <h3>热度排行榜</h3>
-        <ul id="hot-list"></ul>
-    </div>
+    	
 {% endblock %}
 
 

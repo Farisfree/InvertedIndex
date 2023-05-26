@@ -1,5 +1,5 @@
 from sre_parse import Tokenizer
-
+import pandas as pd
 from django.http import HttpResponse
 from django.shortcuts import render
 from pyspark import SparkConf, SparkContext
@@ -10,16 +10,30 @@ import os, re, math, time
 
 
 
+
 def search(request):
     if request.method == "GET":
         return render(request, "search.html")
     else:
         query = request.POST.get("query")
         if query:
+            # spark = SparkSession.builder.master("spark://DPW2-2130026038-FarisGuo:7077").appName("MyAccumulate").getOrCreate()
+            # if 'sc' in globals():
+                # sc.stop()
+            sc = SparkContext.getOrCreate(SparkConf())
+            rdd = sc.textFile('/root/Desktop/tfidf.csv').map(lambda x: eval(x.replace("\\",""))).map(lambda x: (x[0], eval(x[1])))
 
-            return render(request, "search.html", {"search_result": "123"})
+            tokens = set(query.split(" "))
+            filtered_rdd = rdd.filter(lambda x: x[1][0] in tokens).map(lambda x: ((x[0],x[1][0]),x[1][1])).top(10)
+            result = filtered_rdd
+            sc.stop()
+            return render(request, "search.html", {"search_result": "123", "data1": result})
         else:
             return render(request, "search.html", {"warning": "Do not leave it empty!"})
+
+
+
+
 
 def pagination(request):
     return render(request, "pagination.html")
@@ -30,7 +44,7 @@ def bm25Search(request):
 
     result = bm25(query)
 
-    return render(request,"",{"data1":result})
+    return render(request, "", {"data1": result})
 
 
 def cosineSearch(request):
@@ -38,7 +52,7 @@ def cosineSearch(request):
 
     result = cosineSearch(query)
 
-    return render(request,"",{"data2":result})
+    return render(request, "", {"data2": result})
 
 
 def hashingTFSearch(request):
@@ -49,33 +63,11 @@ def hashingTFSearch(request):
     return render(request, "", {"data3": result})
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def bm25(query):
-
     spark = SparkSession.builder \
-    .master("spark://DPW2-2130026038-FarisGuo:7077") \
-    .appName("bm25") \
-    .getOrCreate()
+        .master("spark://DPW2-2130026038-FarisGuo:7077") \
+        .appName("bm25") \
+        .getOrCreate()
 
     sc = spark.sparkContext
 
@@ -84,29 +76,32 @@ def bm25(query):
 
     avg_length = data.map(lambda x: len(x[1].split(" "))).sum() / num
 
-    tmp = data.flatMap(lambda x: [((os.path.basename(x[0]), i), 1, len(x[1].split(" "))) for i in re.split('\\W', x[1])])
+    tmp = data.flatMap(
+        lambda x: [((os.path.basename(x[0]), i), 1, len(x[1].split(" "))) for i in re.split('\\W', x[1])])
 
     idf = tmp.map(lambda x: (x[0][1], 1))
 
-# df = wordcount.reduceByKey(lambda a,b:a+b)
+    # df = wordcount.reduceByKey(lambda a,b:a+b)
 
     wordcount = data.flatMap(lambda x: [((os.path.basename(x[0]), i), 1) for i in re.split('\\W', x[1])])
     tf = wordcount.reduceByKey(lambda a, b: a + b)
 
     merged_rdd = tmp.map(lambda x: ((x[0][0], x[0][1]), (x[1], x[2]))) \
-    .reduceByKey(lambda a, b: (a[0] + b[0], a[1])) \
-    .map(lambda x: (x[0][0], x[0][1], x[1][0], x[1][1]))
+        .reduceByKey(lambda a, b: (a[0] + b[0], a[1])) \
+        .map(lambda x: (x[0][0], x[0][1], x[1][0], x[1][1]))
 
     idf = tf.map(lambda x: (x[0][1], 1)).reduceByKey(lambda a, b: a + b) \
-    .map(lambda x: (x[0], math.log((num - x[1] + 0.5) / (x[1] + 0.5) + 1)))
+        .map(lambda x: (x[0], math.log((num - x[1] + 0.5) / (x[1] + 0.5) + 1)))
 
     result = merged_rdd.map(lambda x: (x[1], x)).join(idf).map(lambda x: x[1][0] + (x[1][1], avg_length,))  # !!!!!
 
-    score = result.map(lambda x: (x[0], x[1], x[4] * (x[2] * (1.2 + 1) / (x[2] + 1.2 * (1 - 0.75 + 0.75 * x[3] / x[5])))))
-# score.collect()
+    score = result.map(
+        lambda x: (x[0], x[1], x[4] * (x[2] * (1.2 + 1) / (x[2] + 1.2 * (1 - 0.75 + 0.75 * x[3] / x[5])))))
+    # score.collect()
     bm25_rdd = score.map(lambda x: (x[1], (x[0], x[2])))
     tokens = set(query.split(" "))
-    result = bm25_rdd.filter(lambda x: x[1][0] in tokens).map(lambda x:(x[0], x[1][1])).reduceByKey(lambda a,b:a+b).top(10)
+    result = bm25_rdd.filter(lambda x: x[1][0] in tokens).map(lambda x: (x[0], x[1][1])).reduceByKey(
+        lambda a, b: a + b).top(10)
 
     return result
 
